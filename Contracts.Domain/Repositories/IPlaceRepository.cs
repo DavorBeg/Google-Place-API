@@ -8,8 +8,14 @@ using System.Threading.Tasks;
 
 namespace Contracts.Domain.Repositories
 {
-    public interface IPlaceRepository<T> : IRepository<T> where T : Place
+    public interface IPlaceRepository
     {
-        Task<IEnumerable<Place>> GetPlacesWithParameters(PlaceParameters parameters, bool trackChanges);
+        Task<IEnumerable<Place>> GetPlacesWithParametersAsync(PlaceParameters parameters, bool trackChanges);
+        Task<IEnumerable<Place>> GetPlacesAsync(bool trackChanges);
+
+        void CreatePlace(Place place);
+        void UpdatePlace(Place place);
+        void DeletePlace(Place place);
+
     }
 }
