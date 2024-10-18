@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using ConfigurationModels.Domain;
+using Contracts.Domain.Repositories;
 using Contracts.Domain.Services;
 using Entities.Domain.Auth;
+using Entities.Domain.Google;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
+using Services.Application.Repos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +19,14 @@ namespace Services.Application
 	{
 		private readonly Lazy<IAuthenticationService> _authenticationService;
 
+
         public ServiceManager(ILoggerManager logger, IMapper mapper, UserManager<User> userManager, IOptions<JwtConfiguration> configuration)
         {
 			_authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(logger, mapper, userManager, configuration));
+
 		}
 
 		public IAuthenticationService AuthenticationService => _authenticationService.Value;
+
 	}
 }

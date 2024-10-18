@@ -26,6 +26,7 @@
     <ProjectReference Include="..\Services.Application\Services.Application.csproj" />
     <ProjectReference Include="..\Shared\Shared.csproj" />
     <ProjectReference Include="..\SignalR.Infrastructure\SignalR.Infrastructure.csproj" />
+    <ProjectReference Include="..\Validators.Application\Validators.Application.csproj" />
   </ItemGroup>
 
 </Project>
