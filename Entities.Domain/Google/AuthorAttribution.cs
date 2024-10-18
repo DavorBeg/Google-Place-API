@@ -8,16 +8,19 @@ using System.Threading.Tasks;
 
 namespace Entities.Domain.Google
 {
-	public partial class PlusCode
+	public class AuthorAttribution
 	{
 		[JsonIgnore]
 		[Key]
 		public Guid Id { get; set; }
 
-		[JsonProperty("globalCode")]
-		public string GlobalCode { get; set; } = string.Empty;
+		[JsonProperty("displayName")]
+		public string DisplayName { get; set; } = string.Empty;
 
-		[JsonProperty("compoundCode")]
-		public string CompoundCode { get; set; } = string.Empty;
+		[JsonProperty("uri")]
+		public string Uri { get; set; } = string.Empty;
+
+		[JsonProperty("photoUri")]
+		public string PhotoUri { get; set; } = string.Empty;
 	}
 }

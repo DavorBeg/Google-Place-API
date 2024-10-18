@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities.Domain.Google
+namespace Entities.Domain.Enums
 {
-	public class Attribution
+	public enum Containment
 	{
-		public string Source { get; set; } = string.Empty;
+		CONTAINMENT_UNSPECIFIED,
+		WITHIN,
+		OUTSKIRTS,
+		NEAR
 	}
 }

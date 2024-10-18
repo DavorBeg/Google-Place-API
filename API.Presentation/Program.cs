@@ -1,3 +1,5 @@
+using API.Presentation.Extensions;
+
 namespace PlacesAPI
 {
 	public class Program
@@ -9,6 +11,13 @@ namespace PlacesAPI
 			// Add services to the container.
 
 			builder.Services.AddControllers();
+			builder.Services.ConfigureSqlContext(builder.Configuration);
+
+
+			builder.Services.AddAuthentication();
+			builder.Services.ConfigureIdentity();
+			builder.Services.ConfigureJWT(builder.Configuration);
+
 
 			var app = builder.Build();
 
@@ -16,6 +25,7 @@ namespace PlacesAPI
 
 			app.UseHttpsRedirection();
 
+			app.UseAuthentication();
 			app.UseAuthorization();
 
 
