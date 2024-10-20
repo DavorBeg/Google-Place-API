@@ -11,9 +11,9 @@ namespace Entities.Domain.Google
 {
 	public class Close
 	{
-		[JsonIgnore]
 		[Key]
-		public Guid Id { get; set; }
+		[JsonIgnore]
+		public Guid Id { get; set; } = Guid.NewGuid();
 
 		[JsonProperty("day")]
 		public long Day { get; set; }
@@ -25,6 +25,6 @@ namespace Entities.Domain.Google
 		public long Minute { get; set; }
 
 		[JsonProperty("date", NullValueHandling = NullValueHandling.Ignore)]
-		public Date Date { get; set; } = new Date();
+		public virtual Date Date { get; set; } = new Date();
 	}
 }

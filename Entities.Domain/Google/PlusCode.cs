@@ -10,14 +10,17 @@ namespace Entities.Domain.Google
 {
 	public partial class PlusCode
 	{
-		[JsonIgnore]
 		[Key]
-		public Guid Id { get; set; }
+		[JsonIgnore]
+		public Guid Id { get; set; } = Guid.NewGuid();
 
 		[JsonProperty("globalCode")]
 		public string GlobalCode { get; set; } = string.Empty;
 
 		[JsonProperty("compoundCode")]
 		public string CompoundCode { get; set; } = string.Empty;
+
+		[JsonIgnore]
+		public Guid? PlaceId { get; set; } 
 	}
 }

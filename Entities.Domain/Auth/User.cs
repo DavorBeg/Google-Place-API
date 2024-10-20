@@ -11,6 +11,6 @@ namespace Entities.Domain.Auth
     public class User : IdentityUser
     {
         public string? UserAPIKey { get; set; }
-        public IEnumerable<Place> FavoritePlaces { get; set; } = Enumerable.Empty<Place>();
+        public virtual IEnumerable<Place> FavoritePlaces { get; set; } = Enumerable.Empty<Place>();
     }
 }

@@ -7,6 +7,7 @@ using Entities.Domain.Google;
 using System.Text.Json;
 using Newtonsoft.Json;
 using Shared.DTOs.Google;
+using Microsoft.EntityFrameworkCore;
 
 namespace PlacesAPI.Controllers
 {
@@ -36,12 +37,19 @@ namespace PlacesAPI.Controllers
 		[HttpPost("login")]
 		public async Task<IActionResult> Authenticate([FromBody] UserForLoginDto user)
 		{
-			var a = JsonConvert.DeserializeObject<GooglePlaceDTO>(this.tt,
-										new JsonSerializerSettings
-										{
-											NullValueHandling = NullValueHandling.Ignore,
+			var a = _context.Places.FirstOrDefault();
+
+			var location = a.Location;
+			var accessabilityOptions = a.AccessibilityOptions;
+			//var a = JsonConvert.DeserializeObject<GooglePlaceDTO>(this.tt,
+			//							new JsonSerializerSettings
+			//							{
+			//								NullValueHandling = NullValueHandling.Ignore,
 											
-										});
+			//							});
+
+			//_context.Add(a.Places.First());
+			//_context.SaveChanges();
 
 			return Ok("tokenDto");
 		}

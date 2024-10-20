@@ -11,9 +11,9 @@ namespace Entities.Domain.Google
 {
 	public partial class Landmark
 	{
-		[JsonIgnore]
 		[Key]
-		public Guid Id { get; set; }
+		[JsonIgnore]
+		public Guid Id { get; set; } = Guid.NewGuid();
 
 		[JsonProperty("name")]
 		public string Name { get; set; } = string.Empty;
@@ -23,9 +23,11 @@ namespace Entities.Domain.Google
 
 		[JsonProperty("displayName")]
 		public virtual DisplayName DisplayName { get; set; } = new DisplayName();
+		[JsonIgnore]
+		public Guid? DisplayNameId { get; set; }
 
 		[JsonProperty("types")]
-		public virtual IEnumerable<string> Types { get; set; } = Enumerable.Empty<string>();
+		public virtual List<string> Types { get; set; }
 
 		[JsonProperty("spatialRelationship", NullValueHandling = NullValueHandling.Ignore)]
 		public SpatialRelationship? SpatialRelationship { get; set; }
@@ -35,6 +37,9 @@ namespace Entities.Domain.Google
 
 		[JsonProperty("travelDistanceMeters", NullValueHandling = NullValueHandling.Ignore)]
 		public double? TravelDistanceMeters { get; set; }
+
+		[JsonIgnore]
+		public Guid? AddressDescriptorId { get; set; }
 
 	}
 }

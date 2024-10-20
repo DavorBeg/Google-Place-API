@@ -10,11 +10,11 @@ namespace Entities.Domain.Google
 {
 	public class References
 	{
-		[JsonIgnore]
 		[Key]
-		public Guid Id { get; set; }
+		[JsonIgnore]
+		public Guid Id { get; set; } = Guid.NewGuid();
 
 		[JsonProperty("reviews")]
-		public IEnumerable<Review> Reviews { get; set; } = Enumerable.Empty<Review>();
+		public virtual ICollection<Review> Reviews { get; set; }
 	}
 }

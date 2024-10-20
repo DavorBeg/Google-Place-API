@@ -11,23 +11,29 @@ namespace Entities.Domain.Google
 {
 	public class CurrentOpeningHours
 	{
-		[JsonIgnore]
 		[Key]
-		public Guid Id { get; set; }
+		[JsonIgnore]
+		public Guid Id { get; set; } = Guid.NewGuid();
 
 		[JsonProperty("openNow")]
 		public bool OpenNow { get; set; }
 
 		[JsonProperty("periods")]
-		public virtual IEnumerable<Period> Periods { get; set; } = Enumerable.Empty<Period>();
+		public virtual ICollection<Period> Periods { get; set; }
 
 		[JsonProperty("weekdayDescriptions")]
-		public virtual IEnumerable<string> WeekdayDescriptions { get; set; } = Enumerable.Empty<string>();
+		public virtual List<string> WeekdayDescriptions { get; set; }
 
 		[JsonProperty("secondaryHoursType", NullValueHandling = NullValueHandling.Ignore)]
 		public SecondaryHoursType? SecondaryHoursType { get; set; }
 
+
 		[JsonIgnore]
-		public string? PlaceId { get; set; }
+		public Guid? PlaceCurrentSecondaryOpeningHoursId { get; set; }
+
+		[JsonIgnore]
+		public Guid? PlaceRegularSecondaryOpeningHoursId { get; set; }
+
+
 	}
 }

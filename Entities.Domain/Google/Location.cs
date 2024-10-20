@@ -10,14 +10,17 @@ namespace Entities.Domain.Google
 {
 	public partial class Location
 	{
-		[JsonIgnore]
 		[Key]
-		public Guid Id { get; set; }
+		[JsonIgnore]
+		public Guid Id { get; set; } = Guid.NewGuid();
 
 		[JsonProperty("latitude")]
 		public double Latitude { get; set; }
 
 		[JsonProperty("longitude")]
 		public double Longitude { get; set; }
+
+		[JsonIgnore]
+		public Guid? PlaceId { get; set; }
 	}
 }

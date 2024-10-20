@@ -10,9 +10,9 @@ namespace Entities.Domain.Google
 {
 	public class AccessibilityOptions
 	{
-		[JsonIgnore]
 		[Key]
-		public Guid Id { get; set; }
+		[JsonIgnore]
+		public Guid Id { get; set; } = Guid.NewGuid();
 
 		[JsonProperty("wheelchairAccessibleParking", NullValueHandling = NullValueHandling.Ignore)]
 		public bool? WheelchairAccessibleParking { get; set; }
@@ -25,5 +25,8 @@ namespace Entities.Domain.Google
 
 		[JsonProperty("wheelchairAccessibleSeating")]
 		public bool WheelchairAccessibleSeating { get; set; }
+
+		[JsonIgnore]
+		public Guid? PlaceId { get; set; }	
 	}
 }

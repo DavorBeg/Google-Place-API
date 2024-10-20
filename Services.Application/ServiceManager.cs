@@ -6,7 +6,6 @@ using Entities.Domain.Auth;
 using Entities.Domain.Google;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
-using Services.Application.Repos;
 using System;
 using System.Collections.Generic;
 using System.Linq;

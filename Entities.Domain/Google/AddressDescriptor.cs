@@ -5,15 +5,18 @@ namespace Entities.Domain.Google
 {
 	public class AddressDescriptor
 	{
-		[JsonIgnore]
 		[Key]
-		public Guid Id { get; set; }
+		[JsonIgnore]
+		public Guid Id { get; set; } = Guid.NewGuid();
 
 		[JsonProperty("landmarks")]
-		public virtual IEnumerable<Landmark> Landmarks { get; set; } = Enumerable.Empty<Landmark>();
+		public virtual ICollection<Landmark> Landmarks { get; set; }
 
 		[JsonProperty("areas")]
-		public virtual IEnumerable<Area> Areas { get; set; } = Enumerable.Empty<Area>();
+		public virtual ICollection<Area> Areas { get; set; }
+
+		[JsonIgnore]
+		public Guid? PlaceId { get; set; }	
 	}
 
 }

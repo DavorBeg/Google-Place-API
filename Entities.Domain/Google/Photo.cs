@@ -7,9 +7,9 @@ namespace Entities.Domain.Google
 {
 	public class Photo
 	{
-		[JsonIgnore]
 		[Key]
-		public Guid Id { get; set; }
+		[JsonIgnore]
+		public Guid Id { get; set; } = Guid.NewGuid();
 
 		[JsonProperty("name")]
 		public string Name { get; set; } = string.Empty;
@@ -21,9 +21,10 @@ namespace Entities.Domain.Google
 		public long HeightPx { get; set; }
 
 		[JsonProperty("authorAttributions")]
-		public virtual IEnumerable<AuthorAttribution> AuthorAttributions { get; set; } = Enumerable.Empty<AuthorAttribution>();
+		public virtual ICollection<AuthorAttribution> AuthorAttributions { get; set; } 
 
 		[JsonIgnore]
-		public string? PlaceId { get; set; }
+		public Guid? PlaceId { get; set; }
+
 	}
 }

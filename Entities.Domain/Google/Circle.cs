@@ -10,14 +10,20 @@ namespace Entities.Domain.Google
 {
 	public class Circle
 	{
-		[JsonIgnore]
 		[Key]
-		public Guid Id { get; set; }
+		[JsonIgnore]
+		public Guid Id { get; set; } = Guid.NewGuid();
 
 		[JsonProperty("center")]
 		public virtual Location Center { get; set; } = null!;
+		[JsonIgnore]
+		public Guid? CenterId { get; set; }
+
 
 		[JsonProperty("radius")]
 		public double Radius { get; set; }
+
+		[JsonIgnore]
+		public Guid? PlaceId { get; set; }
 	}
 }

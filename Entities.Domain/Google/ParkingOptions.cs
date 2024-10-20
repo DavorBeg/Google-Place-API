@@ -10,9 +10,9 @@ namespace Entities.Domain.Google
 {
 	public class ParkingOptions
 	{
-		[JsonIgnore]
 		[Key]
-		public Guid Id { get; set; }
+		[JsonIgnore]
+		public Guid Id { get; set; } = Guid.NewGuid();
 
 		[JsonProperty("paidParkingLot", NullValueHandling = NullValueHandling.Ignore)]
 		public bool? PaidParkingLot { get; set; }
@@ -31,5 +31,8 @@ namespace Entities.Domain.Google
 
 		[JsonProperty("paidGarageParking", NullValueHandling = NullValueHandling.Ignore)]
 		public bool? PaidGarageParking { get; set; }
+
+		[JsonIgnore]
+		public Guid? PlaceId { get; set; }
 	}
 }

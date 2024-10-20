@@ -12,6 +12,9 @@ namespace Entities.Domain.Google
 	public class Place
 	{
 		[Key]
+		[JsonIgnore]
+		public Guid PlaceId { get; set; } = Guid.NewGuid();
+
 		[JsonProperty("id")]
 		public string Id { get; set; } = null!;
 
@@ -19,7 +22,7 @@ namespace Entities.Domain.Google
 		public string Name { get; set; } = string.Empty;
 
 		[JsonProperty("types")]
-		public IEnumerable<string> Types { get; set; } = Enumerable.Empty<string>();	
+		public List<string> Types { get; set; }
 
 		[JsonProperty("nationalPhoneNumber")]
 		public string NationalPhoneNumber { get; set; } = string.Empty;
@@ -31,7 +34,7 @@ namespace Entities.Domain.Google
 		public string FormattedAddress { get; set; } = string.Empty;
 
 		[JsonProperty("addressComponents")]
-		public virtual IEnumerable<AddressComponent> AddressComponents { get; set; } = Enumerable.Empty<AddressComponent>();
+		public virtual ICollection<AddressComponent> AddressComponents { get; set; }
 
 		[JsonProperty("plusCode")]
 		public virtual PlusCode PlusCode { get; set; } = null!;
@@ -53,6 +56,8 @@ namespace Entities.Domain.Google
 
 		[JsonProperty("regularOpeningHours")]
 		public virtual CurrentOpeningHours RegularOpeningHours { get; set; } = null!;
+		[JsonIgnore]
+		public Guid RegularOpeningHoursId { get; set; }
 
 		[JsonProperty("utcOffsetMinutes")]
 		public long UtcOffsetMinutes { get; set; }
@@ -77,9 +82,15 @@ namespace Entities.Domain.Google
 
 		[JsonProperty("displayName")]
 		public virtual DisplayName DisplayName { get; set; } = null!;
+		[JsonIgnore]
+		public Guid? DisplayNameId { get; set; }
+		
 
 		[JsonProperty("primaryTypeDisplayName")]
 		public virtual DisplayName PrimaryTypeDisplayName { get; set; } = null!;
+		[JsonIgnore]
+		public Guid? PrimaryTypeDisplayNameId { get; set; }
+
 
 		[JsonProperty("takeout", NullValueHandling = NullValueHandling.Ignore)]
 		public bool? Takeout { get; set; }
@@ -119,6 +130,8 @@ namespace Entities.Domain.Google
 
 		[JsonProperty("currentOpeningHours")]
 		public virtual CurrentOpeningHours CurrentOpeningHours { get; set; } = null!;
+		[JsonIgnore]
+		public Guid? CurrentOpeningHoursId { get; set; }
 
 		[JsonProperty("primaryType")]
 		public string PrimaryType { get; set; } = string.Empty;
@@ -128,12 +141,14 @@ namespace Entities.Domain.Google
 
 		[JsonProperty("editorialSummary", NullValueHandling = NullValueHandling.Ignore)]
 		public virtual DisplayName EditorialSummary { get; set; } = null!;
+		[JsonIgnore]
+		public Guid? EditorialSummaryId { get; set; }
 
 		[JsonProperty("reviews")]
-		public virtual IEnumerable<Review> Reviews { get; set; } = Enumerable.Empty<Review>();
+		public virtual ICollection<Review> Reviews { get; set; }
 
 		[JsonProperty("photos")]
-		public virtual IEnumerable<Photo> Photos { get; set; } = Enumerable.Empty<Photo>();
+		public virtual ICollection<Photo> Photos { get; set; }
 
 		[JsonProperty("outdoorSeating")]
 		public bool OutdoorSeating { get; set; }
@@ -184,9 +199,9 @@ namespace Entities.Domain.Google
 		public virtual AddressDescriptor AddressDescriptor { get; set; } = null!;
 
 		[JsonProperty("currentSecondaryOpeningHours", NullValueHandling = NullValueHandling.Ignore)]
-		public virtual IEnumerable<CurrentOpeningHours> CurrentSecondaryOpeningHours { get; set; } = Enumerable.Empty<CurrentOpeningHours>();
+		public virtual ICollection<CurrentOpeningHours> CurrentSecondaryOpeningHours { get; set; }
 
 		[JsonProperty("regularSecondaryOpeningHours", NullValueHandling = NullValueHandling.Ignore)]
-		public virtual IEnumerable<CurrentOpeningHours> RegularSecondaryOpeningHours { get; set; } = Enumerable.Empty<CurrentOpeningHours>();
+		public virtual ICollection<CurrentOpeningHours> RegularSecondaryOpeningHours { get; set; }
 	}
 }

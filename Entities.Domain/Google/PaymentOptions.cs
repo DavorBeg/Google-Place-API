@@ -12,7 +12,7 @@ namespace Entities.Domain.Google
 	{
 		[JsonIgnore]
 		[Key]
-		public Guid Id { get; set; }
+		public Guid Id { get; set; } = Guid.NewGuid();
 
 		[JsonProperty("acceptsCreditCards")]
 		public bool AcceptsCreditCards { get; set; }
@@ -25,5 +25,9 @@ namespace Entities.Domain.Google
 
 		[JsonProperty("acceptsNfc", NullValueHandling = NullValueHandling.Ignore)]
 		public bool? AcceptsNfc { get; set; }
+
+		[JsonIgnore]
+		public Guid PlaceId { get; set; }
 	}
+
 }

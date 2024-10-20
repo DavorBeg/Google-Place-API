@@ -10,9 +10,9 @@ namespace Entities.Domain.Google
 {
 	public class AuthorAttribution
 	{
-		[JsonIgnore]
 		[Key]
-		public Guid Id { get; set; }
+		[JsonIgnore]
+		public Guid Id { get; set; } = Guid.NewGuid();
 
 		[JsonProperty("displayName")]
 		public string DisplayName { get; set; } = string.Empty;
@@ -22,5 +22,8 @@ namespace Entities.Domain.Google
 
 		[JsonProperty("photoUri")]
 		public string PhotoUri { get; set; } = string.Empty;
+
+		[JsonIgnore]
+		public Guid? PhotoId { get; set; }
 	}
 }

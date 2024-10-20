@@ -13,7 +13,7 @@ namespace Repository.Infrastructure
 {
 	public class RepositoryContext : IdentityDbContext<User>
 	{
-		public DbSet<Place>? Places { get; set; }
+		public DbSet<Place> Places { get; set; }
 
         public RepositoryContext(DbContextOptions options) : base(options)
         {
@@ -26,54 +26,54 @@ namespace Repository.Infrastructure
 			builder.Entity<Place>()
 				.HasMany(x => x.AddressComponents)
 				.WithOne()
-				.HasForeignKey("AddressComponentsId")
+				.HasForeignKey(x => x.PlaceId)
 				.OnDelete(DeleteBehavior.Restrict);
 
 			builder.Entity<Place>()
 				.HasOne(x => x.PlusCode)
 				.WithOne()
-				.HasForeignKey<Place>(x => x.Id);
+				.HasForeignKey<PlusCode>(x => x.PlaceId);
 
 			builder.Entity<Place>()
 				.HasOne(x => x.Location)
 				.WithOne()
-				.HasForeignKey<Place>(x => x.Id)
+				.HasForeignKey<Location>(x => x.PlaceId)
 				.OnDelete(DeleteBehavior.Restrict);
 
 			builder.Entity<Place>()
 				.HasOne(x => x.Viewport)
 				.WithOne()
-				.HasForeignKey<Place>(x => x.Id)
+				.HasForeignKey<Viewport>(x => x.PlaceId)
 				.OnDelete(DeleteBehavior.Restrict);
 
 			builder.Entity<Place>()
 				.HasOne(x => x.RegularOpeningHours)
 				.WithOne()
-				.HasForeignKey<Place>("RegularOpeningHoursId")
+				.HasForeignKey<Place>(x => x.RegularOpeningHoursId)
 				.OnDelete(DeleteBehavior.Restrict);
 
 			builder.Entity<Place>()
 				.HasOne(x => x.DisplayName)
 				.WithOne()
-				.HasForeignKey<Place>("DisplayNameId")
+				.HasForeignKey<Place>(x => x.DisplayNameId)
 				.OnDelete(DeleteBehavior.Restrict);
 
 			builder.Entity<Place>()
 				.HasOne(x => x.PrimaryTypeDisplayName)
 				.WithOne()
-				.HasForeignKey<Place>("PrimaryTypeDisplayNameId")
+				.HasForeignKey<Place>(x => x.PrimaryTypeDisplayNameId)
 				.OnDelete(DeleteBehavior.Restrict);
 
 			builder.Entity<Place>()
 				.HasOne(x => x.CurrentOpeningHours)
 				.WithOne()
-				.HasForeignKey<Place>("CurrentOpeningHoursId")
+				.HasForeignKey<Place>(x => x.CurrentOpeningHoursId)
 				.OnDelete(DeleteBehavior.Restrict);
 
 			builder.Entity<Place>()
 				.HasOne(x => x.EditorialSummary)
 				.WithOne()
-				.HasForeignKey<Place>("EditorialSummaryId")
+				.HasForeignKey<Place>(x => x.EditorialSummaryId)
 				.OnDelete(DeleteBehavior.Restrict);
 
 			builder.Entity<Place>()
@@ -91,43 +91,43 @@ namespace Repository.Infrastructure
 			builder.Entity<Place>()
 				.HasOne(x => x.PaymentOptions)
 				.WithOne()
-				.HasForeignKey<Place>(x => x.Id)
+				.HasForeignKey<PaymentOptions>(x => x.PlaceId)
 				.OnDelete(DeleteBehavior.Restrict);
 
 			builder.Entity<Place>()
 				.HasOne(x => x.ParkingOptions)
 				.WithOne()
-				.HasForeignKey<Place>(x => x.Id)
+				.HasForeignKey<ParkingOptions>(x => x.PlaceId) 
 				.OnDelete(DeleteBehavior.Restrict);
 
 			builder.Entity<Place>()
 				.HasOne(x => x.AccessibilityOptions)
 				.WithOne()
-				.HasForeignKey<Place>(x => x.Id)
+				.HasForeignKey<AccessibilityOptions>(x => x.PlaceId)
 				.OnDelete(DeleteBehavior.Restrict);
 
 			builder.Entity<Place>()
 				.HasOne(x => x.GenerativeSummary)
 				.WithOne()
-				.HasForeignKey<Place>(x => x.Id)
+				.HasForeignKey<GenerativeSummary>(x => x.PlaceId)
 				.OnDelete(DeleteBehavior.Restrict);
 
 			builder.Entity<Place>()
 				.HasOne(x => x.AddressDescriptor)
 				.WithOne()
-				.HasForeignKey<Place>(x => x.Id)
+				.HasForeignKey<AddressDescriptor>(x => x.PlaceId)
 				.OnDelete(DeleteBehavior.Restrict);
 
 			builder.Entity<Place>()
 				.HasMany(x => x.CurrentSecondaryOpeningHours)
 				.WithOne()
-				.HasForeignKey("CurrentSecondaryOpeningHoursId")
+				.HasForeignKey(x => x.PlaceCurrentSecondaryOpeningHoursId)
 				.OnDelete(DeleteBehavior.Restrict);
 
 			builder.Entity<Place>()
 				.HasMany(x => x.RegularSecondaryOpeningHours)
 				.WithOne()
-				.HasForeignKey("RegularSecondaryOpeningHoursId")
+				.HasForeignKey(x => x.PlaceRegularSecondaryOpeningHoursId)
 				.OnDelete(DeleteBehavior.Restrict);
 			#endregion
 
@@ -136,13 +136,13 @@ namespace Repository.Infrastructure
 			builder.Entity<AddressDescriptor>()
 				.HasMany(x => x.Landmarks)
 				.WithOne()
-				.HasForeignKey("AddressDescriptorId")
+				.HasForeignKey(x => x.AddressDescriptorId)
 				.OnDelete(DeleteBehavior.Restrict);
 
 			builder.Entity<AddressDescriptor>()
 				.HasMany(x => x.Areas)
 				.WithOne()
-				.HasForeignKey("AddressDescriptorId")
+				.HasForeignKey(x => x.AddressDescriptorId)
 				.OnDelete(DeleteBehavior.Restrict);
 			#endregion
 
@@ -151,7 +151,133 @@ namespace Repository.Infrastructure
 			builder.Entity<Area>()
 				.HasOne(x => x.DisplayName)
 				.WithOne()
-				.HasForeignKey<Area>(x => x.Id)
+				.HasForeignKey<Area>(x => x.DisplayNameId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			#endregion
+
+			#region Circle_Fluent_Config
+
+			builder.Entity<Circle>()
+				.HasOne(x => x.Center)
+				.WithOne()
+				.HasForeignKey<Circle>(x => x.CenterId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			#endregion
+
+			#region CurrentOpeningHours_Fluent_Config
+
+			builder.Entity<CurrentOpeningHours>()
+				.HasMany(x => x.Periods)
+				.WithOne()
+				.HasForeignKey(x => x.CurrentOpeningHoursId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			#endregion
+
+			#region GenerativeSummary_Fluent_Config
+
+			builder.Entity<GenerativeSummary>()
+				.HasOne(x => x.Overview)
+				.WithOne()
+				.HasForeignKey<GenerativeSummary>(x => x.OverviewId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			builder.Entity<GenerativeSummary>()
+				.HasOne(x => x.Description)
+				.WithOne()
+				.HasForeignKey<GenerativeSummary>(x => x.DescriptionId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			builder.Entity<GenerativeSummary>()
+				.HasOne(x => x.References)
+				.WithMany()
+				.HasForeignKey(x => x.ReferencesId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			#endregion
+
+			#region LandMark_Fluent_Config
+
+			builder.Entity<Landmark>()
+				.HasOne(x => x.DisplayName)
+				.WithOne()
+				.HasForeignKey<Landmark>(x => x.DisplayNameId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			#endregion
+
+			#region Period_Fluent_Config
+
+			builder.Entity<Period>()
+				.HasOne(x => x.Close)
+				.WithOne()
+				.HasForeignKey<Period>(x => x.CloseId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			builder.Entity<Period>()
+				.HasOne(x => x.Open)
+				.WithOne()
+				.HasForeignKey<Period>(x => x.OpenId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			#endregion
+
+			#region Photo_Fluent_Config
+
+			builder.Entity<Photo>()
+				.HasMany(x => x.AuthorAttributions)
+				.WithOne()
+				.HasForeignKey(x => x.PhotoId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			#endregion
+
+			#region References_FLuent_Config
+
+			builder.Entity<References>()
+				.HasMany(x => x.Reviews)
+				.WithOne()
+				.HasForeignKey(x => x.ReferencesId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			#endregion
+
+			#region Review_Fluent_Config
+
+			builder.Entity<Review>()
+				.HasOne(x => x.Text)
+				.WithOne()
+				.HasForeignKey<Review>(x => x.TextId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			builder.Entity<Review>()
+				.HasOne(x => x.OriginalText)
+				.WithOne()
+				.HasForeignKey<Review>(x => x.OriginalTextId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			builder.Entity<Review>()
+				.HasOne(x => x.AuthorAttribution)
+				.WithOne()
+				.HasForeignKey<Review>(x => x.AuthorAttributionId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			#endregion
+
+			#region Viewport_Fluent_Config
+
+			builder.Entity<Viewport>()
+				.HasOne(x => x.Low)
+				.WithOne()
+				.HasForeignKey<Viewport>(x => x.LowId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			builder.Entity<Viewport>()
+				.HasOne(x => x.High)
+				.WithOne()
+				.HasForeignKey<Viewport>(x => x.HighId)
 				.OnDelete(DeleteBehavior.Restrict);
 
 			#endregion

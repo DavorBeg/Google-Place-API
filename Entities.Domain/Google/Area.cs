@@ -11,9 +11,9 @@ namespace Entities.Domain.Google
 {
 	public class Area
 	{
-		[JsonIgnore]
 		[Key]
-		public Guid Id { get; set; }
+		[JsonIgnore]
+		public Guid Id { get; set; } = Guid.NewGuid();
 
 		[JsonProperty("name")]
 		public string Name { get; set; } = string.Empty;
@@ -22,9 +22,14 @@ namespace Entities.Domain.Google
 		public string PlaceId { get; set; } = string.Empty;
 
 		[JsonProperty("displayName")]
-		public DisplayName DisplayName { get; set; } = null!;
+		public virtual DisplayName DisplayName { get; set; } = null!;
+		[JsonIgnore]
+		public Guid? DisplayNameId { get; set; }
 
 		[JsonProperty("containment")]
 		public Containment Containment { get; set; } = Containment.CONTAINMENT_UNSPECIFIED;
+
+		[JsonIgnore]
+		public Guid? AddressDescriptorId { get; set; }
 	}
 }

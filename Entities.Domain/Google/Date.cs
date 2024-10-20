@@ -10,9 +10,9 @@ namespace Entities.Domain.Google
 {
 	public class Date
 	{
-		[JsonIgnore]
 		[Key]
-		public Guid Id { get; set; }
+		[JsonIgnore]
+		public Guid Id { get; set; } = Guid.NewGuid();
 
 		[JsonProperty("year")]
 		public long Year { get; set; }

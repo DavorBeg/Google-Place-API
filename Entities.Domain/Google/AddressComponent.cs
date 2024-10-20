@@ -10,9 +10,9 @@ namespace Entities.Domain.Google
 {
 	public class AddressComponent
 	{
-		[JsonIgnore]
 		[Key]
-		public Guid Id { get; set; }
+		[JsonIgnore]
+		public Guid Id { get; set; } = Guid.NewGuid();
 
 		[JsonProperty("longText")]
 		public string LongText { get; set; } = null!;
@@ -21,9 +21,12 @@ namespace Entities.Domain.Google
 		public string ShortText { get; set; } = null!;
 
 		[JsonProperty("types")]
-		public IEnumerable<string> Types { get; set; } = Enumerable.Empty<string>();
+		public List<string> Types { get; set; }
 
 		[JsonProperty("languageCode")]
 		public string LanguageCode { get; set; } = string.Empty;
+
+		[JsonIgnore]
+		public Guid? PlaceId { get; set; }
 	}
 }

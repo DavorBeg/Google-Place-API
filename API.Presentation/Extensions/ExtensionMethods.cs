@@ -36,7 +36,7 @@ namespace API.Presentation.Extensions
 		public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration) =>
 			services.AddDbContext<RepositoryContext>(options =>
 			{
-				options.UseSqlServer(configuration.GetConnectionString("sqlConnection"));
+				options.UseSqlServer(configuration.GetConnectionString("sqlConnection")).UseLazyLoadingProxies();
 			});
 
 		public static void ConfigureIdentity(this IServiceCollection services)
