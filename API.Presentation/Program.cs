@@ -1,5 +1,4 @@
-using FluentValidation;
-using static System.Net.Mime.MediaTypeNames;
+using API.Presentation.Extensions;
 
 namespace PlacesAPI
 {
@@ -12,18 +11,17 @@ namespace PlacesAPI
 			// Add services to the container.
 
 			builder.Services.AddControllers();
+			builder.Services.ConfigureSqlContext(builder.Configuration);
 
-			builder.Services.AddValidatorsFromAssembly(typeof(Validators.Application.AssemblyReference).Assembly);
-			builder.Services.AddMediatR(config =>
-			{
-				config.RegisterServicesFromAssembly(typeof(CQRS.Application.AssemblyReference).Assembly);
-			});
+
+			builder.Services.AddAuthentication();
+			builder.Services.ConfigureIdentity();
+			builder.Services.ConfigureJWT(builder.Configuration);
+
 
 			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
-
-
 
 			app.UseHttpsRedirection();
 

@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace Entities.Domain.Google
 {
-	public partial class PlusCode
+	public partial class Location
 	{
 		[JsonIgnore]
 		[Key]
 		public Guid Id { get; set; }
 
-		[JsonProperty("globalCode")]
-		public string GlobalCode { get; set; } = string.Empty;
+		[JsonProperty("latitude")]
+		public double Latitude { get; set; }
 
-		[JsonProperty("compoundCode")]
-		public string CompoundCode { get; set; } = string.Empty;
+		[JsonProperty("longitude")]
+		public double Longitude { get; set; }
 	}
 }

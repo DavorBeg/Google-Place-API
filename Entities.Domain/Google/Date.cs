@@ -8,16 +8,19 @@ using System.Threading.Tasks;
 
 namespace Entities.Domain.Google
 {
-	public partial class PlusCode
+	public class Date
 	{
 		[JsonIgnore]
 		[Key]
 		public Guid Id { get; set; }
 
-		[JsonProperty("globalCode")]
-		public string GlobalCode { get; set; } = string.Empty;
+		[JsonProperty("year")]
+		public long Year { get; set; }
 
-		[JsonProperty("compoundCode")]
-		public string CompoundCode { get; set; } = string.Empty;
+		[JsonProperty("month")]
+		public long Month { get; set; }
+
+		[JsonProperty("day")]
+		public long Day { get; set; }
 	}
 }

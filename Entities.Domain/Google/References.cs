@@ -8,16 +8,13 @@ using System.Threading.Tasks;
 
 namespace Entities.Domain.Google
 {
-	public partial class PlusCode
+	public class References
 	{
 		[JsonIgnore]
 		[Key]
 		public Guid Id { get; set; }
 
-		[JsonProperty("globalCode")]
-		public string GlobalCode { get; set; } = string.Empty;
-
-		[JsonProperty("compoundCode")]
-		public string CompoundCode { get; set; } = string.Empty;
+		[JsonProperty("reviews")]
+		public IEnumerable<Review> Reviews { get; set; } = Enumerable.Empty<Review>();
 	}
 }

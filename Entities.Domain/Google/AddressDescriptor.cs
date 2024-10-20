@@ -1,13 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace Entities.Domain.Google
 {
 	public class AddressDescriptor
 	{
-		public string Descriptor { get; set; } = string.Empty;
+		[JsonIgnore]
+		[Key]
+		public Guid Id { get; set; }
+
+		[JsonProperty("landmarks")]
+		public virtual IEnumerable<Landmark> Landmarks { get; set; } = Enumerable.Empty<Landmark>();
+
+		[JsonProperty("areas")]
+		public virtual IEnumerable<Area> Areas { get; set; } = Enumerable.Empty<Area>();
 	}
+
 }
