@@ -29,6 +29,8 @@ namespace API.Presentation.Extensions
 				});
 			});
 
+		public static void ConfigureAuthenticationService(this IServiceCollection services) =>
+			services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 		public static void ConfigureServiceManager(this IServiceCollection services) =>
 			services.AddScoped<IServiceManager, ServiceManager>();
@@ -38,7 +40,6 @@ namespace API.Presentation.Extensions
 			{
 				options.UseSqlServer(configuration.GetConnectionString("sqlConnection")).UseLazyLoadingProxies();
 			});
-
 		public static void ConfigureIdentity(this IServiceCollection services)
 		{
 			var builder = services.AddIdentity<User, IdentityRole>(opt =>

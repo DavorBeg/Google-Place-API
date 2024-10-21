@@ -1,4 +1,5 @@
 ﻿using Entities.Domain.Auth;
+using Entities.Domain.Favorite;
 using Entities.Domain.Google;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,7 @@ namespace Repository.Infrastructure
 	public class RepositoryContext : IdentityDbContext<User>
 	{
 		public DbSet<Place> Places { get; set; }
+		public DbSet<FavoritePlace> FavoritePlaces { get; set; }
 
         public RepositoryContext(DbContextOptions options) : base(options)
         {

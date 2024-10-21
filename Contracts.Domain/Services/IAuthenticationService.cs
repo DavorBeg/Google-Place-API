@@ -11,8 +11,11 @@ namespace Contracts.Domain.Services
 {
 	public interface IAuthenticationService
 	{
-		Task<IdentityResult> RegisterUser(UserForRegisterDto userForRegistration);
-		Task<bool> ValidateUser(UserForLoginDto userForAuthentication, HttpContext request);
-		Task<TokenDto> CreateToken();
+		Task<IdentityResult> RegisterUserAsync(UserForRegisterDto userForRegistration);
+		Task<bool> ValidateUserAsync(UserForLoginDto userForAuthentication, HttpContext request);
+		Task<TokenDto> CreateTokenAsync();
+
+		Task<UserProfileDto> GetCurrentUserProfileAsync(string userId);
+		Task<string> UpdateUserApiKey(string userId, UserAPIKeyForUpdateDto userApiKeyDto);
 	}
 }

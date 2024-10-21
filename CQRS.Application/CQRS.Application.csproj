@@ -14,10 +14,11 @@
   <ItemGroup>
     <Folder Include="Behaviours\" />
     <Folder Include="Queries\" />
-    <Folder Include="Notifications\" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Contracts.Domain\Contracts.Domain.csproj" />
+    <ProjectReference Include="..\Exceptions.Domain\Exceptions.Domain.csproj" />
     <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
 

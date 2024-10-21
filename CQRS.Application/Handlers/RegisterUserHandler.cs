@@ -10,28 +10,23 @@ using System.Threading.Tasks;
 
 namespace CQRS.Application.Handlers
 {
-	public class ValidateUserHandler : IRequestHandler<ValidateUserCommand, TokenDto>
+	public class RegisterUserHandler : IRequestHandler<RegisterUserCommand, RegisteredDto>
 	{
-
 		private readonly IAuthenticationService _authentication;
 		private readonly ILoggerManager _logger;
-		public ValidateUserHandler(IAuthenticationService authentication, ILoggerManager logger)
-		{
+		public RegisterUserHandler(IAuthenticationService authentication, ILoggerManager logger) 
+		{ 
 			_authentication = authentication;
 			_logger = logger;
 		}
 
-		public async Task<TokenDto> Handle(ValidateUserCommand request, CancellationToken cancellationToken)
+
+		public async Task<RegisteredDto> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
 		{
 			try
 			{
-				var result = await _authentication.ValidateUserAsync(request.User, request.httpContext);
-				if (result)
-				{
-					var token = await _authentication.CreateTokenAsync();
-					return token;
-				}
-				else throw new UnauthorizedAccessException();
+				var result = await _authentication.RegisterUserAsync(request.user);
+				return new RegisteredDto(result.Succeeded, result.Errors.Select(x => x.Description).ToArray());
 			}
 			catch (Exception ex)
 			{

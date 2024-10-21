@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace Shared.DTOs.FavoriteFeature
 {
-    public record FavoritePlaceForDeleteDto(string userId, string placeId);
+    public record FavoritePlaceForDeleteDto(string placeId);
 }

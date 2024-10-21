@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace Shared.DTOs.Authentication
 {
-	public record TokenDto(string accessToken);
+	public sealed record TokenDto(string accessToken);
 }

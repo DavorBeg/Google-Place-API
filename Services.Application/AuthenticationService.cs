@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using Exceptions.Domain;
 using Microsoft.AspNetCore.Http;
+using Exceptions.Domain.Abstraction;
 
 namespace Services.Application
 {
@@ -35,7 +36,7 @@ namespace Services.Application
 			_jwtConfiguration = jwtConfiguration;
 		}
 
-        public async Task<TokenDto> CreateToken()
+        public async Task<TokenDto> CreateTokenAsync()
 		{
 			var signingCredentials = GetSigningCredentials();
 			var claims = await GetClaims();
@@ -45,7 +46,7 @@ namespace Services.Application
 			return new TokenDto(accessToken);
 		}
 
-		public async Task<IdentityResult> RegisterUser(UserForRegisterDto userForRegistration)
+		public async Task<IdentityResult> RegisterUserAsync(UserForRegisterDto userForRegistration)
 		{
 			if (string.Equals(userForRegistration.password, userForRegistration.rPassword, StringComparison.Ordinal) == false) throw new PasswordNotMatchedException();
 
@@ -61,7 +62,7 @@ namespace Services.Application
 			return result;
 		}
 
-		public async Task<bool> ValidateUser(UserForLoginDto userForAuthentication, HttpContext request)
+		public async Task<bool> ValidateUserAsync(UserForLoginDto userForAuthentication, HttpContext request)
 		{
 			_user = await _userManager.FindByNameAsync(userForAuthentication.username);
 			if(_user == null) { throw new UserNotFound(); }
@@ -87,7 +88,8 @@ namespace Services.Application
 		{
 			var claims = new List<Claim>
 			{
-				new Claim(ClaimTypes.Name, _user?.UserName ?? throw new NullReferenceException("User or user name is null reference!"))
+				new Claim(ClaimTypes.Name, _user?.UserName ?? throw new NullReferenceException("User or user name is null reference!")),
+				new Claim(ClaimTypes.NameIdentifier, _user?.Id ?? throw new NullReferenceException(""))
 			};
 			var roles = await _userManager.GetRolesAsync(_user);
 			foreach (var role in roles)
@@ -107,6 +109,26 @@ namespace Services.Application
 				signingCredentials: signingCredentials);
 
 			return tokenOptions;
+		}
+
+		public async Task<UserProfileDto> GetCurrentUserProfileAsync(string userId)
+		{
+			var user = await _userManager.FindByIdAsync(userId);
+			if(user is null) throw new UserNotFoundException();	
+
+			var userdto = _mapper.Map<UserProfileDto>(user);
+			return userdto;
+		}
+
+		public async Task<string> UpdateUserApiKey(string userId, UserAPIKeyForUpdateDto userApiKeyDto)
+		{
+			var user = await _userManager.FindByIdAsync(userId);
+			if(user is null) throw new UserNotFoundException();
+
+			user.UserAPIKey = userApiKeyDto.key;
+			await _userManager.UpdateAsync(user);
+
+			return user.UserAPIKey;
 		}
 		#endregion
 	}
