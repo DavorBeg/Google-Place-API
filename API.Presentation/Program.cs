@@ -1,7 +1,11 @@
 using API.Presentation.Extensions;
+using API.Presentation.Middlewares;
+using Contracts.Domain.Services;
+using CQRS.Application.Behaviours;
 using MediatR;
+using MediatR.Pipeline;
 using Serilog;
-using static System.Net.Mime.MediaTypeNames;
+using SignalR.Infrastructure;
 
 namespace PlacesAPI
 {
@@ -15,6 +19,7 @@ namespace PlacesAPI
 				.ReadFrom.Configuration(builder.Configuration)
 				.CreateLogger();
 
+			builder.Services.AddSignalR();
 			builder.Services.ConfigureCors();
 			builder.Services.ConfigureLoggerService();
 			builder.Services.AddJwtConfiguration(builder.Configuration);
@@ -30,6 +35,8 @@ namespace PlacesAPI
 
 
 			builder.Services.AddAutoMapper(typeof(Program));
+			builder.Services.AddTransient(typeof(IRequestExceptionHandler<,,>), typeof(RequestExceptionHandler<,,>));
+
 
 			builder.Services.AddMediatR(config =>
 			{
@@ -38,13 +45,23 @@ namespace PlacesAPI
 
 			var app = builder.Build();
 			app.UseCors("CorsPolicy");
-			// Configure the HTTP request pipeline.
+
+
+			var logger = app.Services.GetRequiredService<ILoggerManager>();
+			app.ConfigureExceptionHandler(logger);
+
 
 			app.UseHttpsRedirection();
 
 			app.UseAuthentication();
 			app.UseAuthorization();
 
+			#pragma warning disable ASP0014
+			app.UseEndpoints(configure => 
+			{
+				configure.MapHub<EventHub>("/eventhub");
+			});
+			#pragma warning restore ASP0014
 
 			app.MapControllers();
 
