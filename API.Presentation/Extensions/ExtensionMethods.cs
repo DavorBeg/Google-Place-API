@@ -1,10 +1,14 @@
-﻿using ConfigurationModels.Domain;
+﻿using Asp.Versioning;
+using ConfigurationModels.Domain;
 using Contracts.Domain.Services;
 using Entities.Domain.Auth;
+using GoogleAPI.Infrastructure;
 using Logger.Application;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Repository.Infrastructure;
 using Services.Application;
@@ -58,6 +62,46 @@ namespace API.Presentation.Extensions
 		public static void AddJwtConfiguration(this IServiceCollection services, IConfiguration configuration) =>
 			services.Configure<JwtConfiguration>(configuration.GetSection("JwtSettings"));
 
+		public static void AddGoogleConfiguration(this IServiceCollection services, IConfiguration configuration) =>
+			services.Configure<GoogleConfiguration>(configuration.GetSection("GoogleSettings"));
+
+		public static void ConfigureGoogleService(this IServiceCollection services)
+		{
+			services.AddHttpClient("google", (serviceProvider, client) =>
+			{
+				var settings = serviceProvider.GetRequiredService<IOptions<GoogleConfiguration>>().Value;
+
+				client.BaseAddress = new Uri(settings.BaseUri ?? "");
+				foreach(var header in settings.RequireHeaders)
+				{
+					if (header is null) continue;
+					if(header.Name is null || header.DefaultValue is null) continue;
+
+					client.DefaultRequestHeaders.Add(header.Name, header.DefaultValue);
+				}
+			});
+
+			services.AddScoped<IGoogleService, GoogleService>();
+			
+		}
+
+		public static void ConfigureAPIVersioning(this IServiceCollection services)
+		{
+			services.AddApiVersioning(options =>
+			{
+				options.DefaultApiVersion = new ApiVersion(1);
+				options.ReportApiVersions = true;
+				options.AssumeDefaultVersionWhenUnspecified = true;
+				options.ApiVersionReader = new UrlSegmentApiVersionReader();
+
+
+			}).AddMvc()
+			.AddApiExplorer(options =>
+			{
+				options.GroupNameFormat = "'v'V";
+				options.SubstituteApiVersionInUrl = true;
+			});
+		}
 
 		public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
 		{

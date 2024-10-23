@@ -1,4 +1,5 @@
-﻿using CQRS.Application.Commands;
+﻿using Asp.Versioning;
+using CQRS.Application.Commands;
 using CQRS.Application.Commands.FavoriteFeature;
 using CQRS.Application.Notifications.FavoriteFeature;
 using MediatR;
@@ -11,8 +12,8 @@ using Shared.DTOs.FavoriteFeature;
 
 namespace PlacesAPI.Controllers
 {
-	[Route("api/favorite")]
 	[ApiController]
+	[Route("api/v{v:apiVersion}/favorite")]
 	public class FavoriteController : ControllerBase
 	{
 
@@ -27,6 +28,7 @@ namespace PlacesAPI.Controllers
 
         [HttpGet("{placeId}", Name = "GetLocation")]
 		[Authorize]
+		[MapToApiVersion(1)]
 		public async Task<IActionResult> GetFavoriteLocation(string placeId)
 		{
 			var result = _sender.Send(new GetUserFavoritePlaceCommand(this.User, placeId));
@@ -35,6 +37,7 @@ namespace PlacesAPI.Controllers
 
 		[HttpGet("all")]
 		[Authorize]
+		[MapToApiVersion(1)]
 		public async Task<IActionResult> GetFavoriteLocations()
 		{
 			var result = _sender.Send(new GetUserFavoritePlacesCommand(this.User));
@@ -43,6 +46,7 @@ namespace PlacesAPI.Controllers
 
 		[HttpPost("{placeDto}")]
 		[Authorize]
+		[MapToApiVersion(1)]
 		public async Task<IActionResult> PostFavoriteLocation(FavoritePlaceForCreateDto placeDto)
 		{
 			var result = await _sender.Send(new CreateUserFavoritePlacesCommand(this.User, placeDto));
@@ -51,6 +55,7 @@ namespace PlacesAPI.Controllers
 
 		[HttpDelete("{placeDto}")]
 		[Authorize]
+		[MapToApiVersion(1)]
 		public async Task<IActionResult> RemoveFavoriteLocation(string placeDto)
 		{
 			await _publisher.Publish(new UserFavoritePlaceDeletedNotification(placeDto));

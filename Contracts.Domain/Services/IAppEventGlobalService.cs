@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contracts.Domain.SignalR
+namespace Contracts.Domain.Services
 {
-	public interface IEventMessageHub
+	public interface IAppEventGlobalService
 	{
-		Task SendSearchReportToClient(string user, Location location, float radius);
+		public Task SendAsync(string requestName, object msgParams);
 	}
 }

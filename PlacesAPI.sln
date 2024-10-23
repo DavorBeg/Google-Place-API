@@ -19,8 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalR.Infrastructure", "S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csproj", "{FB395B12-293D-47F4-9B47-A0681839CC5B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalR.Client", "SignalR.Client\SignalR.Client.csproj", "{6ECAAE42-A03A-42F6-B20E-61A9DB30B3D5}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRS.Application", "CQRS.Application\CQRS.Application.csproj", "{FBB8BE56-E520-4DAE-97F4-72B560DB1AD4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Application", "Services.Application\Services.Application.csproj", "{4BF08290-F071-4403-AB64-8797559E0E19}"
@@ -29,7 +27,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logger.Application", "Logge
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfigurationModels.Domain", "ConfigurationModels.Domain\ConfigurationModels.Domain.csproj", "{3EA7C1D0-82BB-4390-B231-C896BEE4F997}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Validators.Application", "Validators.Application\Validators.Application.csproj", "{EC418F01-40DC-46AE-836D-5F525C13064E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Validators.Application", "Validators.Application\Validators.Application.csproj", "{EC418F01-40DC-46AE-836D-5F525C13064E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalR.Client", "SignalR.Client\SignalR.Client.csproj", "{C67101DB-1A2C-463A-B8D1-5A2BF586FEDA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,10 +69,6 @@ Global
 		{FB395B12-293D-47F4-9B47-A0681839CC5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB395B12-293D-47F4-9B47-A0681839CC5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB395B12-293D-47F4-9B47-A0681839CC5B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6ECAAE42-A03A-42F6-B20E-61A9DB30B3D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6ECAAE42-A03A-42F6-B20E-61A9DB30B3D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6ECAAE42-A03A-42F6-B20E-61A9DB30B3D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6ECAAE42-A03A-42F6-B20E-61A9DB30B3D5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FBB8BE56-E520-4DAE-97F4-72B560DB1AD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FBB8BE56-E520-4DAE-97F4-72B560DB1AD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBB8BE56-E520-4DAE-97F4-72B560DB1AD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -93,6 +89,10 @@ Global
 		{EC418F01-40DC-46AE-836D-5F525C13064E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC418F01-40DC-46AE-836D-5F525C13064E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC418F01-40DC-46AE-836D-5F525C13064E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C67101DB-1A2C-463A-B8D1-5A2BF586FEDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C67101DB-1A2C-463A-B8D1-5A2BF586FEDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C67101DB-1A2C-463A-B8D1-5A2BF586FEDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C67101DB-1A2C-463A-B8D1-5A2BF586FEDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

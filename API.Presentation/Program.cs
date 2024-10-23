@@ -1,5 +1,6 @@
 using API.Presentation.Extensions;
 using API.Presentation.Middlewares;
+using Contracts.Domain;
 using Contracts.Domain.Services;
 using CQRS.Application.Behaviours;
 using MediatR;
@@ -19,15 +20,19 @@ namespace PlacesAPI
 				.ReadFrom.Configuration(builder.Configuration)
 				.CreateLogger();
 
+			builder.Services.ConfigureAPIVersioning();
+
 			builder.Services.AddSignalR();
 			builder.Services.ConfigureCors();
 			builder.Services.ConfigureLoggerService();
 			builder.Services.AddJwtConfiguration(builder.Configuration);
+			builder.Services.AddGoogleConfiguration(builder.Configuration);
 
 			builder.Services.AddControllers();
 			builder.Services.ConfigureSqlContext(builder.Configuration);
 
 			builder.Services.ConfigureAuthenticationService();
+			builder.Services.ConfigureGoogleService();
 
 			builder.Services.AddAuthentication();
 			builder.Services.ConfigureIdentity();
@@ -36,12 +41,16 @@ namespace PlacesAPI
 
 			builder.Services.AddAutoMapper(typeof(Program));
 			builder.Services.AddTransient(typeof(IRequestExceptionHandler<,,>), typeof(RequestExceptionHandler<,,>));
+			builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(SignalRLoggingBehavior<,>));
 
+			builder.Services.AddScoped<IAppEventGlobalService, AppEventGlobalService>();
 
 			builder.Services.AddMediatR(config =>
 			{
 				config.RegisterServicesFromAssembly(typeof(CQRS.Application.AssemblyReference).Assembly);
 			});
+
+			
 
 			var app = builder.Build();
 			app.UseCors("CorsPolicy");
@@ -56,15 +65,10 @@ namespace PlacesAPI
 			app.UseAuthentication();
 			app.UseAuthorization();
 
-			#pragma warning disable ASP0014
-			app.UseEndpoints(configure => 
-			{
-				configure.MapHub<EventHub>("/eventhub");
-			});
-			#pragma warning restore ASP0014
 
 			app.MapControllers();
 
+			app.MapHub<EventHub>("eventHub");
 			app.Run();
 		}
 	}

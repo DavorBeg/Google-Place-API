@@ -10,10 +10,12 @@ using Shared.DTOs.Google;
 using Microsoft.EntityFrameworkCore;
 using CQRS.Application.Commands;
 using Microsoft.AspNetCore.Authorization;
+using Asp.Versioning;
 
 namespace PlacesAPI.Controllers
 {
-	[Route("api/auth")]
+	[ApiVersion(1)]
+	[Route("api/v{v:apiVersion}/auth")]
 	[ApiController]
 	public class AuthenticationController : ControllerBase
 	{
@@ -29,6 +31,7 @@ namespace PlacesAPI.Controllers
 			_sender = sender;
         }
         [HttpPost("register")]
+		[MapToApiVersion(1)]
 		public async Task<IActionResult> RegisterUser([FromBody] UserForRegisterDto userForRegistration)
 		{
 
@@ -47,6 +50,7 @@ namespace PlacesAPI.Controllers
 
 		[HttpGet("me")]
 		[Authorize]
+		[MapToApiVersion(1)]
 		public async Task<IActionResult> CurrentProfile()
 		{
 			var result = await _sender.Send(new GetUserAccountCommand(User));
@@ -56,6 +60,7 @@ namespace PlacesAPI.Controllers
 
 		[HttpPost("apikey")]
 		[Authorize]
+		[MapToApiVersion(1)]
 		public async Task<IActionResult> CurrentProfile([FromBody] UserAPIKeyForUpdateDto apikeyDto)
 		{
 			await _sender.Send(new UpdateApiKeyCommand(this.User, apikeyDto));

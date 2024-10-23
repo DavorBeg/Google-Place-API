@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace Shared.DTOs.Google
 {
-	public record RequestPlaceDTO(IEnumerable<string> includedTypes, int maxResultCount, Circle circle);
+	public record RequestPlaceDTO(IEnumerable<string> includedTypes, int maxResultCount, LocationRestriction locationRestriction);
 }
