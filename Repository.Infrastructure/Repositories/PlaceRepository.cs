@@ -12,10 +12,13 @@ namespace Repository.Infrastructure.Repositories
 {
 	public class PlaceRepository : RepositoryBase<Place>, IPlaceRepository
 	{
+
 		public PlaceRepository(RepositoryContext context) : base(context)
 		{
 
 		}
+
+		public void InsertManyPlaces(IEnumerable<Place> places) => InsertMany(places);
 
 		public void CreatePlace(Place place) => Create(place);
 
@@ -34,7 +37,14 @@ namespace Repository.Infrastructure.Repositories
 
 		public void UpdatePlace(Place place)
 		{
-			throw new NotImplementedException();
+			
+		}
+
+		public async Task<IEnumerable<string>> GetPlacesIdsAsync()
+		{
+			var result = await _context.Places.Select(x => x.Id).AsNoTracking().ToListAsync();
+			if (result is null) return Enumerable.Empty<string>();
+			else return result;
 		}
 	}
 }

@@ -1,10 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using AutoMapper.Configuration.Annotations;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Entities.Domain.Google
 {
@@ -12,6 +8,7 @@ namespace Entities.Domain.Google
 	{
 		[Key]
 		[JsonIgnore]
+		[Ignore]
 		public Guid Id { get; set; } = Guid.NewGuid();
 
 		[JsonProperty("text")]
@@ -21,6 +18,7 @@ namespace Entities.Domain.Google
 		public string LanguageCode { get; set; } = string.Empty;
 
 		[JsonIgnore]
+		[Ignore]
 		public Guid? PlaceId { get; set; } 
 	}
 }

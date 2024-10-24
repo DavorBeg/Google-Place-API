@@ -8,6 +8,7 @@ namespace CQRS.Application.Behaviours
 	public class RequestExceptionHandler<TRequest, TResponse, TException> :
 		IRequestExceptionHandler<TRequest, TResponse, TException> where TResponse : class, new()
 																  where TException : Exception
+																  where TRequest : notnull
 	{
 
 		private readonly ILoggerManager _logger;

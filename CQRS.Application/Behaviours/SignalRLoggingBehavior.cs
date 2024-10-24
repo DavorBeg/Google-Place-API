@@ -6,7 +6,7 @@ using System.Security.Claims;
 
 namespace CQRS.Application.Behaviours
 {
-	public class SignalRLoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+	public class SignalRLoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
 	{
 
 		private readonly IAppEventGlobalService _signalREventService;

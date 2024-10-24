@@ -1,5 +1,6 @@
 using Entities.Domain.Google;
 using Microsoft.AspNetCore.SignalR.Client;
+using Shared.DTOs.SignalR;
 
 
 namespace SignalR.Client
@@ -22,9 +23,9 @@ namespace SignalR.Client
 		{
 			await _hubProxy.StartAsync();
 			Console.WriteLine("-----------------------> SignalR Client started <-----------------------");
-			_hubProxy.On<string, Location, float, DateTime>("ReportReceive", (user, location, radius, time) =>
+			_hubProxy.On<LocationRequestParamsDto>(Shared.SignalR.SignalR.Events.UserRequestSearchLocation, (dto) =>
 			{
-				_logger.LogInformation($"User: {user} have send request for location lat: {location.Latitude} lng: {location.Longitude} inside radius {radius} on time: {time.ToString("g")}");
+				_logger.LogInformation($"User: {dto.User} have send request for location lat: {dto.Circle.Center.Latitude} lng: {dto.Circle.Center.Longitude} inside radius {dto.Circle.Radius} on time: {dto.Timestamp.ToString("g")}");
 			});
 		}
 	}

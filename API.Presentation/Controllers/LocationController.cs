@@ -1,5 +1,8 @@
 ﻿using Asp.Versioning;
 using Contracts.Domain.Services;
+using CQRS.Application.Commands.GoogleFeature;
+using Entities.Domain.Google;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,34 +14,37 @@ namespace PlacesAPI.Controllers
 	[Route("api/v{v:apiVersion}/location")]
 	public class LocationController : ControllerBase
 	{
-		// ONLY TEMP, FOR DELETE LATER AND MOVE TO MEDIATR
-		private readonly IGoogleService _googleService;
-        public LocationController(IGoogleService googleService)
+		private readonly ISender _sender;
+        public LocationController(ISender sender)
         {
-			_googleService = googleService;
+			_sender = sender;
         }
 
         [HttpPost("find", Name = "SearchGPSLocation")]
-		//[Authorize]
+		[Authorize]
 		[MapToApiVersion(1)]
 		public async Task<IActionResult> GetGPSLocations([FromBody]RequestPlaceDTO request)
 		{
-			var result = await _googleService.SearchLocation(request, "21ddawm11nff_231xdkv");
+			var command = new SearchPlacesForLocationCommand(this.User, request);
+			var result = await _sender.Send(command);
+
 			return Ok(result);
 		}
 
 		[HttpGet("all", Name = "GetStoredLocations")]
 		[Authorize]
 		[MapToApiVersion(1)]
-		public async Task<IActionResult> GetGPSLocations()
+		public async Task<IActionResult> GetStoredLocations()
 		{
-			return Ok();
+			var command = new GetAllStoredLocationsCommand(this.User);
+			var result = await _sender.Send(command);
+			return Ok(result);
 		}
 
-		[HttpGet("all/filter", Name = "GetStoredLocationsByParameters")]
+		[HttpGet("all/filter", Name = "GetStoredFilteredLocations")]
 		[Authorize]
 		[MapToApiVersion(1)]
-		public async Task<IActionResult> GetGPSLocations([FromQuery]Shared.RequestFeatures.PlaceParameters parameters)
+		public async Task<IActionResult> GetStoredFilteredLocations([FromQuery]Shared.RequestFeatures.PlaceParameters parameters)
 		{
 			return Ok();
 		}

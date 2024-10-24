@@ -54,8 +54,7 @@ namespace PlacesAPI.Controllers
 		public async Task<IActionResult> CurrentProfile()
 		{
 			var result = await _sender.Send(new GetUserAccountCommand(User));
-			if(result is not null) { return Ok(result); }
-			else { return NotFound(); }
+			return Ok(result);
 		}
 
 		[HttpPost("apikey")]

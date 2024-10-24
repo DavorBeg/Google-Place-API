@@ -1,5 +1,6 @@
 ﻿using Asp.Versioning;
 using ConfigurationModels.Domain;
+using Contracts.Domain;
 using Contracts.Domain.Services;
 using Entities.Domain.Auth;
 using GoogleAPI.Infrastructure;
@@ -39,6 +40,8 @@ namespace API.Presentation.Extensions
 		public static void ConfigureServiceManager(this IServiceCollection services) =>
 			services.AddScoped<IServiceManager, ServiceManager>();
 
+		public static void ConfigureRepositoryManager(this IServiceCollection services) =>
+			services.AddScoped<IRepositoryManager, RepositoryManager>();
 		public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration) =>
 			services.AddDbContext<RepositoryContext>(options =>
 			{

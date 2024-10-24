@@ -25,6 +25,8 @@ namespace PlacesAPI
 			builder.Services.AddSignalR();
 			builder.Services.ConfigureCors();
 			builder.Services.ConfigureLoggerService();
+			builder.Services.ConfigureRepositoryManager();
+
 			builder.Services.AddJwtConfiguration(builder.Configuration);
 			builder.Services.AddGoogleConfiguration(builder.Configuration);
 
@@ -42,6 +44,7 @@ namespace PlacesAPI
 			builder.Services.AddAutoMapper(typeof(Program));
 			builder.Services.AddTransient(typeof(IRequestExceptionHandler<,,>), typeof(RequestExceptionHandler<,,>));
 			builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(SignalRLoggingBehavior<,>));
+			builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(SaveToDatabaseBehavior<,>));
 
 			builder.Services.AddScoped<IAppEventGlobalService, AppEventGlobalService>();
 

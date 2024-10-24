@@ -9,6 +9,9 @@ namespace Contracts.Domain
 {
 	public interface IRepositoryManager
 	{
-		IPlaceRepository PlaceRepository { get; }
+		IPlaceRepository Place { get; }
+		IUserRepository User { get; }
+
+		Task SaveAsync();
 	}
 }

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using ConfigurationModels.Domain;
 using Newtonsoft.Json;
 using System.Net.Http;
+using System.Diagnostics;
 
 namespace GoogleAPI.Infrastructure
 {
@@ -38,7 +39,7 @@ namespace GoogleAPI.Infrastructure
 
 			var requestParameters = JsonConvert.SerializeObject(parameters);
 			var result = await client.PostAsJsonAsync($"{_googleConfiguration.ApiVersion}/{this.SearchLocationEndPoint}", parameters);
-
+			var list = client.DefaultRequestHeaders.ToList();
 
 #if !DEBUG
 			if (!result.IsSuccessStatusCode) 

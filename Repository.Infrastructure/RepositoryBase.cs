@@ -19,10 +19,14 @@ namespace Repository.Infrastructure
 		{
 			_context = context;
 		}
+		public void InsertMany(IEnumerable<T> entities)
+		{
+			_context.Set<T>().AddRange(entities);
+		}
 
 		public void Create(T entity)
 		{
-			_context.Set<T>().Add(entity);
+			_context.Set<T>().AddAsync(entity);
 		}
 
 		public void Delete(T entity)
@@ -43,6 +47,7 @@ namespace Repository.Infrastructure
 		{
 			return trackChanges ? _context.Set<T>() : _context.Set<T>().AsNoTracking();
 		}
+
 
 	}
 }

@@ -17,13 +17,13 @@ namespace CQRS.Application.Handlers
 	{
 		private readonly IAuthenticationService _authenticationService;
 
+
         public GetUserAccountHandler(IAuthenticationService authenticationService)
         {
             _authenticationService = authenticationService;
         }
         public async Task<UserProfileDto> Handle(GetUserAccountCommand request, CancellationToken cancellationToken)
 		{
-			throw new Exception("Some random exception");
 			var userId = request.user.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.NameIdentifier, StringComparison.OrdinalIgnoreCase))?.Value;
 			var user = await _authenticationService.GetCurrentUserProfileAsync(userId ?? throw new UserNotFoundException());
 			return user;

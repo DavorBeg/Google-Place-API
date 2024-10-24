@@ -65,7 +65,7 @@ namespace Services.Application
 		public async Task<bool> ValidateUserAsync(UserForLoginDto userForAuthentication, HttpContext request)
 		{
 			_user = await _userManager.FindByNameAsync(userForAuthentication.username);
-			if(_user == null) { throw new UserNotFound(); }
+			if(_user == null) { throw new UserNotFoundException(); }
 			var result = await _userManager.CheckPasswordAsync(_user, userForAuthentication.password);
 
 			if(!result) {

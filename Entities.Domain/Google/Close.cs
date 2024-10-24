@@ -25,6 +25,6 @@ namespace Entities.Domain.Google
 		public long Minute { get; set; }
 
 		[JsonProperty("date", NullValueHandling = NullValueHandling.Ignore)]
-		public virtual Date Date { get; set; } = new Date();
+		public virtual Date? Date { get; set; }
 	}
 }

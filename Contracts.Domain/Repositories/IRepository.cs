@@ -11,6 +11,8 @@ namespace Contracts.Domain.Repositories
     {
         IQueryable<T> GetAll(bool trackChanges);
         IQueryable<T> FindByCond(Expression<Func<T, bool>> condition, bool trackChanges); 
+
+        void InsertMany(IEnumerable<T> entities);
         void Create(T entity);
         void Update(T entity);
         void Delete(T entity);

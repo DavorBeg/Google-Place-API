@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Entities.Domain.Auth;
+using Entities.Domain.Google;
 using Shared.DTOs.Authentication;
+using Shared.DTOs.Google;
 
 namespace API.Presentation.Mapping
 {
@@ -15,6 +17,11 @@ namespace API.Presentation.Mapping
 				.ForMember(dest => dest.username, opt => opt.MapFrom(src => src.UserName))
 				.ForMember(dest => dest.email, opt => opt.MapFrom(src => src.Email))
 				.ForMember(dest => dest.apiKey, opt => opt.MapFrom(src => src.UserAPIKey));
+
+
+			CreateMap<Place, PlaceDto>()
+				.ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => src.DisplayName ?? new DisplayName()));
+
 
 		}
     }
