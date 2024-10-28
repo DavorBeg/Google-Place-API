@@ -4,7 +4,7 @@ using MediatR;
 using Shared.DTOs.SignalR;
 using System.Security.Claims;
 
-namespace CQRS.Application.Behaviours
+namespace CQRS.Application.Behaviors
 {
 	public class SignalRLoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
 	{

@@ -34,7 +34,7 @@ namespace Entities.Domain.Google
 		public string FormattedAddress { get; set; } = string.Empty;
 
 		[JsonProperty("addressComponents")]
-		public virtual ICollection<AddressComponent> AddressComponents { get; set; }
+		public virtual ICollection<AddressComponent>? AddressComponents { get; set; }
 
 		[JsonProperty("plusCode")]
 		public virtual PlusCode PlusCode { get; set; } = null!;

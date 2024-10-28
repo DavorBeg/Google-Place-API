@@ -3,7 +3,7 @@ using CQRS.Application.Commands;
 using MediatR.Pipeline;
 
 
-namespace CQRS.Application.Behaviours
+namespace CQRS.Application.Behaviors
 {
 	public class RequestExceptionHandler<TRequest, TResponse, TException> :
 		IRequestExceptionHandler<TRequest, TResponse, TException> where TResponse : class, new()

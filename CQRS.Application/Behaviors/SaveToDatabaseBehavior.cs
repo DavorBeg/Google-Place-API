@@ -9,8 +9,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CQRS.Application.Behaviours
+namespace CQRS.Application.Behaviors
 {
+	// This behavior is made for checking if returned places from google exist. If any place already exist in my database,
+	// I will trigger update. Also if place is not registered/saved in my database, insert will be triggered.
+	// Secured idempotency? I think yes...
 	public class SaveToDatabaseBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
 	{
 		private readonly IRepositoryManager _repositoryManager;

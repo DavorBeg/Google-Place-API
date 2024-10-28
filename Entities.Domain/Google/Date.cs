@@ -22,5 +22,8 @@ namespace Entities.Domain.Google
 
 		[JsonProperty("day")]
 		public long Day { get; set; }
+
+		[JsonIgnore]
+		public Guid? CloseId { get; set; }
 	}
 }

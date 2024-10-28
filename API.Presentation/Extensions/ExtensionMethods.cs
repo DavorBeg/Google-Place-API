@@ -42,11 +42,15 @@ namespace API.Presentation.Extensions
 
 		public static void ConfigureRepositoryManager(this IServiceCollection services) =>
 			services.AddScoped<IRepositoryManager, RepositoryManager>();
+
 		public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration) =>
 			services.AddDbContext<RepositoryContext>(options =>
 			{
 				options.UseSqlServer(configuration.GetConnectionString("sqlConnection")).UseLazyLoadingProxies();
 			});
+
+		public static void AddAPILockingMechanism(this IServiceCollection services) =>
+			services.AddSingleton<IRequestLocker, RequestLocker>();
 		public static void ConfigureIdentity(this IServiceCollection services)
 		{
 			var builder = services.AddIdentity<User, IdentityRole>(opt =>

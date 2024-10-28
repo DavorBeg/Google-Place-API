@@ -21,6 +21,7 @@ namespace Entities.Domain.Google
 
 		[JsonProperty("high")]
 		public virtual Location? High { get; set; } = null;
+
 		[JsonIgnore]
 		public Guid? HighId { get; set; }
 		[JsonIgnore]

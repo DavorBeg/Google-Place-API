@@ -284,6 +284,14 @@ namespace Repository.Infrastructure
 
 			#endregion
 
+			#region Close_Fluent_Config
+			builder.Entity<Close>()
+				.HasOne(x => x.Date)
+				.WithOne()
+				.HasForeignKey<Date>(x => x.CloseId)
+				.OnDelete(DeleteBehavior.Restrict);
+			#endregion
+
 			builder.ApplyConfiguration(new RoleConfiguration());
 
 			base.OnModelCreating(builder);

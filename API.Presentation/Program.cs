@@ -2,10 +2,11 @@ using API.Presentation.Extensions;
 using API.Presentation.Middlewares;
 using Contracts.Domain;
 using Contracts.Domain.Services;
-using CQRS.Application.Behaviours;
+using CQRS.Application.Behaviors;
 using MediatR;
 using MediatR.Pipeline;
 using Serilog;
+using Services.Application;
 using SignalR.Infrastructure;
 
 namespace PlacesAPI
@@ -20,7 +21,10 @@ namespace PlacesAPI
 				.ReadFrom.Configuration(builder.Configuration)
 				.CreateLogger();
 
+			builder.Services.AddTransient<IUserAccessor, UserAccessor>();
+
 			builder.Services.ConfigureAPIVersioning();
+			builder.Services.AddMemoryCache();
 
 			builder.Services.AddSignalR();
 			builder.Services.ConfigureCors();
@@ -35,16 +39,19 @@ namespace PlacesAPI
 
 			builder.Services.ConfigureAuthenticationService();
 			builder.Services.ConfigureGoogleService();
+			builder.Services.AddAPILockingMechanism();
 
 			builder.Services.AddAuthentication();
 			builder.Services.ConfigureIdentity();
 			builder.Services.ConfigureJWT(builder.Configuration);
-
+			builder.Services.AddResponseCaching();
 
 			builder.Services.AddAutoMapper(typeof(Program));
 			builder.Services.AddTransient(typeof(IRequestExceptionHandler<,,>), typeof(RequestExceptionHandler<,,>));
-			builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(SignalRLoggingBehavior<,>));
+			builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LockingRequestMechanismBehavior<,>));
 			builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(SaveToDatabaseBehavior<,>));
+			builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(SignalRLoggingBehavior<,>));
+			builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
 
 			builder.Services.AddScoped<IAppEventGlobalService, AppEventGlobalService>();
 
@@ -57,6 +64,8 @@ namespace PlacesAPI
 
 			var app = builder.Build();
 			app.UseCors("CorsPolicy");
+			// Middleware position is important! Cache must be called here.
+			app.UseResponseCaching();
 
 
 			var logger = app.Services.GetRequiredService<ILoggerManager>();
@@ -70,6 +79,7 @@ namespace PlacesAPI
 
 
 			app.MapControllers();
+
 
 			app.MapHub<EventHub>("eventHub");
 			app.Run();

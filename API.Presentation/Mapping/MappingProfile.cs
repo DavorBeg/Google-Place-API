@@ -18,10 +18,29 @@ namespace API.Presentation.Mapping
 				.ForMember(dest => dest.email, opt => opt.MapFrom(src => src.Email))
 				.ForMember(dest => dest.apiKey, opt => opt.MapFrom(src => src.UserAPIKey));
 
-
-			CreateMap<Place, PlaceDto>()
-				.ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => src.DisplayName ?? new DisplayName()));
-
+			CreateMap<Place, PlaceDto>();
+			CreateMap<AccessibilityOptions, AccessibilityOptionsDto>();
+			CreateMap<AddressComponent, AddressComponentDto>();
+			CreateMap<Area, AreaDto>();
+			CreateMap<AuthorAttribution, AuthorAttributionDto>();
+			CreateMap<AddressDescriptor, AddressDescriptorDto>();
+			CreateMap<Close, CloseDto>();
+			CreateMap<Date, DateDto>();
+			CreateMap<CurrentOpeningHours, CurrentOpeningHoursDto>();
+			CreateMap<DisplayName, DisplayNameDto>();
+			CreateMap<GenerativeSummary, GenerativeSummaryDto>();
+			CreateMap<Landmark, LandmarkDto>();
+			CreateMap<Location, LocationDto>();
+			CreateMap<ParkingOptions, ParkingOptionsDto>();
+			CreateMap<PaymentOptions, PaymentOptionsDto>();
+			CreateMap<Period, PeriodDto>();
+			CreateMap<Photo, PhotoDto>();
+			CreateMap<Place, PlaceDto>();
+			CreateMap<PlusCode, PlusCodeDto>();
+			CreateMap<PlusCode, PlusCodeDto>();
+			CreateMap<References, ReferencesDto>();
+			CreateMap<Review, ReviewDto>();
+			CreateMap<Viewport, ViewportDto>();
 
 		}
     }
