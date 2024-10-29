@@ -11,5 +11,5 @@ using System.Threading.Tasks;
 
 namespace CQRS.Application.Commands.FavoriteFeature
 {
-	public record CreateUserFavoritePlacesCommand(ClaimsPrincipal User, FavoritePlaceForCreateDto favoriteDto) : IRequest<string>;
+	public record CreateUserFavoritePlaceCommand(string placeId) : IRequest;
 }

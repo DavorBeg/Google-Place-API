@@ -9,9 +9,6 @@ namespace Repository.Infrastructure.Extensions
 {
 	public static class PlaceExtensions
 	{
-		//public static IQueryable<Place> FilterPlaces(this IQueryable<Place> places, IEnumerable<string> categories) =>
-		//	places.Where(x => x.Types.Any(type => categories.Contains(type)));
-
 		/// <summary>
 		/// Extension method that takes search string and check it with places name property.
 		/// </summary>
@@ -24,7 +21,7 @@ namespace Repository.Infrastructure.Extensions
 				return places;
 
 			var lowerCaseTerm = searchTerm.Trim().ToLower();
-			return places.Where(e => e.Name!.ToLower().Contains(lowerCaseTerm));
+			return places.Where(e => e.PrimaryTypeDisplayName.Text.ToLower().Contains(lowerCaseTerm));
 		}
 
 	}

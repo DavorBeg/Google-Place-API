@@ -17,15 +17,17 @@ namespace CQRS.Application.Handlers.GoogleFeature
 	{
 		private readonly IGoogleService _googleService;
 		private readonly IRepositoryManager _repositoryManager;
+		private readonly IUserAccessor _userAccessor;
 		
-        public SearchPlacesForLocationHandler(IGoogleService googleService, IRepositoryManager repositoryManager)
+        public SearchPlacesForLocationHandler(IGoogleService googleService, IRepositoryManager repositoryManager, IUserAccessor userAccessor)
         {
             _googleService = googleService;
 			_repositoryManager = repositoryManager;
+			_userAccessor = userAccessor;
         }
         public async Task<GooglePlaceDTO> Handle(SearchPlacesForLocationCommand request, CancellationToken cancellationToken)
 		{
-			var id = request.user?.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? throw new UserNotFoundException();
+			var id = _userAccessor.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? throw new UserNotFoundException();
 			var user = await _repositoryManager.User.GetUserById(Guid.Parse(id)) ?? throw new UserNotFoundException();
 			var apiKey = string.IsNullOrEmpty(user.UserAPIKey) ? throw new InvalidApiKeyException() : user.UserAPIKey;
 

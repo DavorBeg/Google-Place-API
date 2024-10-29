@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Shared.DTOs.FavoriteFeature;
 using Shared.DTOs.Google;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,6 @@ using System.Threading.Tasks;
 
 namespace CQRS.Application.Commands.FavoriteFeature
 {
-	public record GetUserFavoritePlacesCommand(ClaimsPrincipal User) : IRequest<GooglePlaceDTO>;
+	public record GetUserFavoritePlacesCommand() : IRequest<IEnumerable<FavoritePlaceDto>>;
 
 }

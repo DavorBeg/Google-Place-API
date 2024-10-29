@@ -11,6 +11,7 @@ namespace Contracts.Domain
 	{
 		IPlaceRepository Place { get; }
 		IUserRepository User { get; }
+		IFavoriteRepository UserFavorites { get; }
 
 		Task SaveAsync();
 	}

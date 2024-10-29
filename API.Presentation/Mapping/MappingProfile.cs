@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Entities.Domain.Auth;
+using Entities.Domain.Favorite;
 using Entities.Domain.Google;
 using Shared.DTOs.Authentication;
+using Shared.DTOs.FavoriteFeature;
 using Shared.DTOs.Google;
 
 namespace API.Presentation.Mapping
@@ -42,6 +44,8 @@ namespace API.Presentation.Mapping
 			CreateMap<Review, ReviewDto>();
 			CreateMap<Viewport, ViewportDto>();
 
+			CreateMap<FavoritePlace, FavoritePlaceDto>();
+			
 		}
     }
 }

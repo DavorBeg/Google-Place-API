@@ -16,14 +16,12 @@ namespace Entities.Domain.Favorite
 		public Guid UserId { get; set; } 
 		public List<string>? Types { get; set; } = null;
 		public DateTime CreatedAt { get; set; } = DateTime.Now;
+		public string GooglePlaceId { get; set; } = null!;
 
 		public Guid? PlaceId { get; set; }
 
 		[ForeignKey(nameof(PlaceId))]
 		public virtual Place? Place { get; set; }
-
-
-
 
 	}
 }

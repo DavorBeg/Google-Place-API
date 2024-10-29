@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Shared.DTOs.Google;
+using System.Diagnostics;
 
 namespace PlacesAPI.Controllers
 {
@@ -46,7 +47,9 @@ namespace PlacesAPI.Controllers
 		[MapToApiVersion(1)]
 		public async Task<IActionResult> GetStoredFilteredLocations([FromQuery]Shared.RequestFeatures.PlaceParameters parameters)
 		{
-			return Ok();
+			var command = new GetStoredFilteredLocationsCommand(parameters);
+			var result = await _sender.Send(command);	
+			return Ok(result);
 		}
 	}
 }

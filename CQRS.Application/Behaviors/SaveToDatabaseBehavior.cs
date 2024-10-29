@@ -26,7 +26,10 @@ namespace CQRS.Application.Behaviors
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
 		{
 			// If request is not SearchPlacesForLocationCommand then just continue with request handler.
-			if (request is not SearchPlacesForLocationCommand) { await next.Invoke(); }
+			// !!!! I had bug here where my command was called twice because I did not returned response from invoked request. 
+			// So thi function continued and went to another response next.Invoke() which triggered all my command twice !!!
+
+			if (request is not SearchPlacesForLocationCommand) { var continuesResponse = await next.Invoke(); return continuesResponse; }
 
 			// lets try  to add them
 			var ids = await _repositoryManager.Place.GetPlacesIdsAsync();

@@ -13,8 +13,8 @@ namespace Contracts.Domain.Repositories
         Task<IEnumerable<Place>> GetPlacesWithParametersAsync(PlaceParameters parameters, bool trackChanges);
         Task<IEnumerable<Place>> GetPlacesAsync(bool trackChanges);
         Task<IEnumerable<string>> GetPlacesIdsAsync();
-
-        void InsertMany(IEnumerable<Place> places);
+		Task<Place> GetPlaceByIdAsync(string placeId, bool trackChanges);
+		void InsertMany(IEnumerable<Place> places);
 
 		void CreatePlace(Place place);
         void UpdatePlace(Place place);

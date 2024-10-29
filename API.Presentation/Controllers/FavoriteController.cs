@@ -31,8 +31,8 @@ namespace PlacesAPI.Controllers
 		[MapToApiVersion(1)]
 		public async Task<IActionResult> GetFavoriteLocation(string placeId)
 		{
-			var result = _sender.Send(new GetUserFavoritePlaceCommand(this.User, placeId));
-			return Ok("Authorized");
+			var result = await _sender.Send(new GetUserFavoritePlaceCommand(placeId));
+			return Ok(result);
 		}
 
 		[HttpGet("all")]
@@ -40,17 +40,17 @@ namespace PlacesAPI.Controllers
 		[MapToApiVersion(1)]
 		public async Task<IActionResult> GetFavoriteLocations()
 		{
-			var result = _sender.Send(new GetUserFavoritePlacesCommand(this.User));
-			return Ok("Authorized");
+			var result = await _sender.Send(new GetUserFavoritePlacesCommand());
+			return Ok(result);
 		}
 
-		[HttpPost("{placeDto}")]
+		[HttpPost("{placeId}")]
 		[Authorize]
 		[MapToApiVersion(1)]
-		public async Task<IActionResult> PostFavoriteLocation(FavoritePlaceForCreateDto placeDto)
+		public async Task<IActionResult> PostFavoriteLocation(string placeId)
 		{
-			var result = await _sender.Send(new CreateUserFavoritePlacesCommand(this.User, placeDto));
-			return CreatedAtRoute("GetLocation", new { placeId = result });
+			await _sender.Send(new CreateUserFavoritePlaceCommand(placeId));
+			return CreatedAtRoute("GetLocation", routeValues: new { placeId }, new { Id = placeId });
 		}
 
 		[HttpDelete("{placeDto}")]

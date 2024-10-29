@@ -47,6 +47,7 @@ namespace PlacesAPI
 			builder.Services.AddResponseCaching();
 
 			builder.Services.AddAutoMapper(typeof(Program));
+
 			builder.Services.AddTransient(typeof(IRequestExceptionHandler<,,>), typeof(RequestExceptionHandler<,,>));
 			builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LockingRequestMechanismBehavior<,>));
 			builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(SaveToDatabaseBehavior<,>));
@@ -60,7 +61,7 @@ namespace PlacesAPI
 				config.RegisterServicesFromAssembly(typeof(CQRS.Application.AssemblyReference).Assembly);
 			});
 
-			
+
 
 			var app = builder.Build();
 			app.UseCors("CorsPolicy");
@@ -71,9 +72,9 @@ namespace PlacesAPI
 			var logger = app.Services.GetRequiredService<ILoggerManager>();
 			app.ConfigureExceptionHandler(logger);
 
-
 			app.UseHttpsRedirection();
 
+			app.UseRouting();
 			app.UseAuthentication();
 			app.UseAuthorization();
 
