@@ -21,6 +21,7 @@ I built this app by following next documentation: [Documentation](https://develo
  9. **Serilog** - For some basic logging
  10. **AutoMapper** - For mapping my DTOs
  11. **Onion architecture** - (Not tecnology) Architecture of my app
+ 12. **Asp.Versioning.Mvc** - Library for versioning our API endpoints
 
 # What I wanted to use?
 
@@ -99,6 +100,60 @@ To avoid some complicated explanation how I created this, lets look at flow diag
 
 This may look complicated, but important part of this story is that, request after locking behavior does not jump automatically on other behavior or to return response, instead it will be catched inside semaphore and there request will wait until semaphore will be free again.
 
-To be continued...
+# Testing request locking solution
+
+After I created this solution, I was curious if this actually work... So I created one simple test with **Postman**. I used something called **Postman runner** in which I send 10 same requests almost in same time (0ms delay). To check how semaphore behaive I added some basic logging, which will be printed in .txt file. So lets check it...
+
+ 1. Lets do login do get new JWT token.
+ 2. Lets create new request tab for all locations in which we insert new JWT
+ 3. Open up **Runner** and insert our newly created request tab.
+ 4. Run benchmark.
+ 
+ Lets check ***log.txt*** file:
+ 
+
+    2024-10-30 13:39:44.431 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb assigned new semphore for his/her task. Action ID is: || 91 ||
+    2024-10-30 13:39:50.440 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb Finished activated task, semaphore release must be triggered.
+    2024-10-30 13:39:50.443 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb disposed semphore, Action with ID || 91 || is finished. Next may enter...
+    2024-10-30 13:40:56.067 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb assigned new semphore for his/her task. Action ID is: || 60 ||
+    2024-10-30 13:40:56.069 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb Finished activated task, semaphore release must be triggered.
+    2024-10-30 13:40:56.070 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb disposed semphore, Action with ID || 60 || is finished. Next may enter...
+    2024-10-30 13:40:56.117 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb assigned new semphore for his/her task. Action ID is: || 80 ||
+    2024-10-30 13:40:56.118 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb Finished activated task, semaphore release must be triggered.
+    2024-10-30 13:40:56.120 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb disposed semphore, Action with ID || 80 || is finished. Next may enter...
+    2024-10-30 13:40:56.192 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb assigned new semphore for his/her task. Action ID is: || 34 ||
+    2024-10-30 13:40:56.194 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb Finished activated task, semaphore release must be triggered.
+    2024-10-30 13:40:56.195 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb disposed semphore, Action with ID || 34 || is finished. Next may enter...
+    2024-10-30 13:40:56.289 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb assigned new semphore for his/her task. Action ID is: || 45 ||
+    2024-10-30 13:40:56.290 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb Finished activated task, semaphore release must be triggered.
+    2024-10-30 13:40:56.291 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb disposed semphore, Action with ID || 45 || is finished. Next may enter...
+    2024-10-30 13:40:56.349 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb assigned new semphore for his/her task. Action ID is: || 97 ||
+    2024-10-30 13:40:56.351 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb Finished activated task, semaphore release must be triggered.
+    2024-10-30 13:40:56.352 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb disposed semphore, Action with ID || 97 || is finished. Next may enter...
+    2024-10-30 13:40:56.437 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb assigned new semphore for his/her task. Action ID is: || 35 ||
+    2024-10-30 13:40:56.438 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb Finished activated task, semaphore release must be triggered.
+    2024-10-30 13:40:56.439 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb disposed semphore, Action with ID || 35 || is finished. Next may enter...
+    2024-10-30 13:40:56.517 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb assigned new semphore for his/her task. Action ID is: || 25 ||
+    2024-10-30 13:40:56.518 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb Finished activated task, semaphore release must be triggered.
+    2024-10-30 13:40:56.518 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb disposed semphore, Action with ID || 25 || is finished. Next may enter...
+    2024-10-30 13:40:56.612 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb assigned new semphore for his/her task. Action ID is: || 69 ||
+    2024-10-30 13:40:56.613 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb Finished activated task, semaphore release must be triggered.
+    2024-10-30 13:40:56.614 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb disposed semphore, Action with ID || 69 || is finished. Next may enter...
+    2024-10-30 13:40:56.705 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb assigned new semphore for his/her task. Action ID is: || 60 ||
+    2024-10-30 13:40:56.706 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb Finished activated task, semaphore release must be triggered.
+    2024-10-30 13:40:56.707 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb disposed semphore, Action with ID || 60 || is finished. Next may enter...
+    2024-10-30 13:40:56.798 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb assigned new semphore for his/her task. Action ID is: || 39 ||
+    2024-10-30 13:40:56.799 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb Finished activated task, semaphore release must be triggered.
+    2024-10-30 13:40:56.800 +01:00 [DBG] User: 518c34ff-b7a3-4fc3-9067-e86e8431cddb disposed semphore, Action with ID || 39 || is finished. Next may enter...
+
+For every request I just gave some random number inserted in `|| number ||` double apsolute symbols.
+
+By checking given log we can se that after user sent request,and we market it by **91**, all others requests waited for semaphore to release it. And also we can se when task is done, how
+our logger say:  `Action with ID || 91 || is finished. Next may enter...`
+
+this information is credible for our basic testing, so we can say this solution should work. 
+*(at least in developing env.)*
+
+
 
 
